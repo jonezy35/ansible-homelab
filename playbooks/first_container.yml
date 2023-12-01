@@ -18,12 +18,6 @@
               ports:
                 - "80:80"
 
-    - name: Ensure Docker service is running
-      ansible.builtin.service:
-        name: docker
-        state: started
-
-
     - name: Start container using Docker Compose
       ansible.builtin.command:
         cmd: docker compose up -d
