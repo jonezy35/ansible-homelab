@@ -83,7 +83,7 @@ If you have hosts already running docker, you will want to add them to the `inve
 
 If you don't have any hosts running docker, pick a host that you just ran the fresh install script on and add it to the `Docker` group in your `inventory.yml`. Then execute the `first_container` playbook which will stand up your first Docker container.
 
-`ansible-playbook playbooks/first_container.yml --ask-become`
+`ansible-playbook playbooks/first_container.yml`
 
 Now add the following to your `compose_file_paths` for the docekr host in your `inventory.yml` file:
 
