@@ -1,0 +1,52 @@
+---
+- name: Update Docker Containers With New Images
+  hosts: Docker
+  gather_facts: yes
+
+  tasks:
+    - name: Stop and remove Docker containers
+      ansible.builtin.command: docker compose down
+      args:
+        chdir: "{{ compose_file_path | dirname }}"
+      loop: "{{ compose_file_paths }}"
+      ignore_errors: yes
+      loop_control:
+        loop_var: compose_file_path
+
+    - name: Run docker compose up
+      ansible.builtin.command: docker compose up -d
+      args:
+        chdir: "{{ compose_file_path | dirname }}"
+      loop: "{{ compose_file_paths }}"
+      loop_control:
+        loop_var: compose_file_path
+
+    - name: Pause for 60 seconds to allow containers to stabilize
+      ansible.builtin.pause:
+        seconds: 60
+
+    - name: Check container status
+      ansible.builtin.shell: docker compose ps -q | xargs -n1 docker container inspect --format '{{ "{{" }} .State.Running {{ "}}" }}'
+      args:
+        chdir: "{{ compose_file_path | dirname }}"
+      loop: "{{ compose_file_paths }}"
+      register: container_status
+      ignore_errors: yes
+      loop_control:
+        loop_var: compose_file_path
+
+    - name: Conditional restart of containers
+      ansible.builtin.command: docker compose up -d
+      args:
+        chdir: "{{ result_item.item.path | dirname }}"
+      loop: "{{ container_status.results }}"
+      when: "'false' in result_item.stdout"
+      register: restart_status
+      loop_control:
+        loop_var: result_item
+
+    - name: Pause for 60 seconds to allow containers to stabilize
+      ansible.builtin.pause:
+        seconds: 60
+
+- import_playbook: docker_status.yml

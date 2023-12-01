@@ -1,0 +1,54 @@
+---
+- name: Install various utilities on Debian/Ubuntu and Red Hat systems
+  hosts: all
+  become: yes
+  gather_facts: yes
+
+  tasks:
+    - name: Update apt cache (Debian/Ubuntu)
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600 # Cache valid for 1 hour
+      when: ansible_os_family == "Debian"
+
+    - name: Install packages for Debian/Ubuntu
+      apt:
+        name:
+          - build-essential
+          - git
+          - vim
+          - curl
+          - wget
+          - gimp
+          - gnome-tweaks   # Only useful if GNOME is installed
+          - synaptic
+          - htop
+          - tar
+          - net-tools
+          - unzip
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Install EPEL Repository (Red Hat/CentOS)
+      yum:
+        name: epel-release
+        state: present
+      when: ansible_os_family == "RedHat"
+
+    - name: Install packages for RedHat/CentOS
+      yum:
+        name:
+          - "@Development Tools"
+          - git
+          - vim
+          - curl
+          - wget
+          - htop
+          - tar
+          - net-tools
+          - unzip
+        state: present
+      when: ansible_os_family == "RedHat"
+
+# This will run after the previous play is completed
+- import_playbook: install_docker.yml

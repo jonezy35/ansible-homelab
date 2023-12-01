@@ -1,0 +1,28 @@
+---
+- name: Check and Report Status of Docker Containers
+  hosts: Docker
+  gather_facts: yes
+  vars:
+    exited_containers: []
+
+  tasks:
+    - name: Check container status
+      ansible.builtin.shell: |
+        docker ps -a --format "{{ '{{' }}.Names{{ '}}' }}\t{{ '{{' }}.Status{{ '}}' }}\t{{ '{{' }}.Ports{{ '}}' }}"
+      register: container_status
+
+    - name: Collect exited containers
+      set_fact:
+        exited_containers: "{{ exited_containers + [item.split('\t')[0]] }}"
+      loop: "{{ container_status.stdout_lines }}"
+      when: "'Exited' in item.split('\t')[1]"
+
+    - name: Display container status for each host
+      ansible.builtin.debug:
+        msg: "Container: {{ item.split('\t')[0] }}, Status: {{ item.split('\t')[1] }}, Ports: {{ item.split('\t')[2] or 'None' }}"
+      loop: "{{ container_status.stdout_lines }}"
+
+    - name: Fail with summary of exited containers
+      ansible.builtin.fail:
+        msg: "Exited containers found: {{ exited_containers | join(', ') }}"
+      when: exited_containers | length > 0

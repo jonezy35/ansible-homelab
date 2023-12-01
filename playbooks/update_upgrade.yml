@@ -1,0 +1,27 @@
+---
+- hosts: all
+  become: yes
+  gather_facts: true
+
+  tasks:
+    - name: "Updating and Upgrading Apt Packages"
+      apt:
+        update_cache: yes
+        upgrade: safe
+      when: ansible_os_family == "Debian"
+
+    - name: "Updating and Upgrading Yum Packages"
+      yum:
+        name: '*'
+        state: latest
+      when: ansible_os_family == "RedHat"
+
+    # For DNF-based systems (e.g., Fedora), you can add a similar task:
+    - name: "Updating and Upgrading Dnf Packages"
+      dnf:
+        name: '*'
+        state: latest
+      when: ansible_distribution == "Fedora"
+
+    # Specific adjustments for Raspbian can be made here, if necessary
+    # Raspbian will typically be covered by the Debian task, but if you have specific needs, you can specify them here.
