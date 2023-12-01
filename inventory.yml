@@ -13,7 +13,7 @@ all:
     Docker:
       hosts:
         host1:
-          aansible_host: <ip>
+          ansible_host: <ip>
           ansible_user: <user>
           ansible_ssh_private_key_file: ~/.ssh/<private key>
           compose_file_paths: 
@@ -21,7 +21,7 @@ all:
             - /path/to/docker-compose.yml
             - /path/to/docker-compose.yml
         host2:
-          aansible_host: <ip>
+          ansible_host: <ip>
           ansible_user: <user>
           ansible_ssh_private_key_file: ~/.ssh/<private key>
           compose_file_paths: 
