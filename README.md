@@ -43,6 +43,10 @@ Welcome back to our Homelab posts! Today, we're venturing into the realm of auto
 
 In this post, we dive into Ansible to simplify and streamline your homelab operations. We'll begin by discussing the basics of setting up SSH key-based authentication and creating an Ansible inventory file. From there, we'll progress through various playbooks, covering everything from OS family discovery to Docker container management. By automating these essential tasks, your homelab will become more efficient, secure, and easier to maintain.
 
+To get started, clone the github repo that goes along with this post:
+
+`git clone https://github.com/jonezy35/ansible-homelab.git`
+
 ## Section 1: Setting Up SSH Key-Based Authentication
 
 Before jumping into Ansible playbooks, it's crucial to establish a secure and efficient way to connect to your remote machines. SSH key-based authentication offers a more secure alternative to traditional password-based methods. I've detailed the setup process in a previous post, which you can find [here](https://medium.com/@jonezy7173_88832/using-ssh-key-based-authentication-remote-machines-and-github-f7fe6d142be8). This setup is essential for seamless Ansible operations.
