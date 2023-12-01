@@ -84,9 +84,19 @@ Now add the following to your `compose_file_paths` for the docekr host in your `
 
 You can now run `docker_status.yml` against your docker hosts to check the status of your containers. This playbook will return all green if your containers are all good, and it will fail if any container is in status "exited"
 
+`ansible-playbook playbooks/docker_status.yml`
+
 ## Section 6: Keeping Docker Containers Up-to-Date
 
-Lastly, we have the docker_update_containers.yml playbook. This playbook is crucial for updating your Docker containers with the latest images. It also re-imports the docker_status.yml playbook to check the status of containers after the update.
+Lastly, we have the `docker_update_containers.yml` playbook. This playbook is crucial for updating your Docker containers with the latest images. It also re-imports the docker_status.yml playbook to check the status of containers after the update.
+
+At this point you should have all of your hosts running docker containers in the `Docker` group of your `inventory.yml` file.
+
+To update your containers this playbook brings your containers down, deletes their images, and brings them back up to pull the updated images. 
+
+**YOU MUST HAVE PERSISTANT STORAGE SETUP! IF YOU DON'T THEN THIS PLAYBOOK WILL <u>DELETE ALL OF YOUR DATA FROM YOUR CONTAINERS**</u> - consider yourself warned.
+
+`ansible-playbook playbooks/docker_update_containers.yml`
 
 ## Conclusion:
 
