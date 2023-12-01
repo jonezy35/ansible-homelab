@@ -1,5 +1,41 @@
 # Simplifying Homelab Management: Automate with Ansible
 
+This repo serves to work with my blog post on using Ansible to automate your homelab. Instructions to use are as follows and the blog post is below
+
+## Instructions
+
+### Pre Requisites
+
+- You must have the target machines setup and have ssh key based authentication setup. If you don't have that completed yet you can follow along with the blog post below.
+
+- You must have ansible installed on your local machine. You do not need Ansible installed on the target hosts.
+
+### To Use These Playbooks
+Simply clone this repository and follow the blog post below to get started
+
+### File structure:
+
+``````
+├── ansible.cfg
+├── inventory.yml
+└── playbooks
+    ├── docker_status.yml
+    ├── docker_update_containers.yml
+    ├── fresh_install.yml
+    ├── install_docker.yml
+    ├── install_vim.yml
+    ├── os_family_discovery.yml
+    ├── ping_test.yml
+    └── update_upgrade.yml
+``````
+
+#### ansible.cfg
+This is the ansible configuration file. It tells ansible basic information about where to find certain files and how to run
+#### inventory.yml
+This file contains the inventory for all of our hosts and information about those hosts. We will go into detail later.
+#### playbooks
+This directory contains all of our plalybooks, which we will touch on later in the blog post when we get to them.
+
 ## Introduction
 
 Welcome back to our Homelab posts! Today, we're venturing into the realm of automation with Ansible. Ansible is an open-source automation tool that makes it easier to configure and manage computers and servers. It uses a simple, human-readable language to automate the setup and management of your systems, eliminating repetitive tasks and ensuring consistency across your environment. Whether you're managing a few machines or a large-scale network, Ansible's versatility allows for efficient scaling and control, making it an indispensable tool in any homelab setup.
