@@ -21,6 +21,7 @@ Simply clone this repository and follow the blog post below to get started
 └── playbooks
     ├── docker_status.yml
     ├── docker_update_containers.yml
+    ├── first_container.yml
     ├── fresh_install.yml
     ├── install_docker.yml
     ├── install_vim.yml
