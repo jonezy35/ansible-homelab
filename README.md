@@ -2,7 +2,7 @@
 
 This repo serves to work with my blog post on using Ansible to automate your homelab. Instructions to use are as follows and the blog post is below
 
-## NOTE: This was built against an ubuntu install. RHEL9 doesn't officially support docker (thanks podman) so the docker install playbook currenlty doesn't work on RHEL machines
+### NOTE: This was built against an ubuntu install. RHEL9 doesn't officially support docker (thanks podman) so the docker install playbook currenlty doesn't work on RHEL machines
 
 ### Pre Requisites
 
