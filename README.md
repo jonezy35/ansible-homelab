@@ -64,6 +64,10 @@ Now that you know what family each host is, I recommend going back to the `inven
 
 Next up is the `fresh_install.yml` playbook. This playbook is designed to install a suite of essential utilities on new machines, whether they're running Debian/Ubuntu or RedHat/CentOS. Notably, this playbook also imports the `install_docker.yml` playbook, automating Docker installation as part of the setup process.
 
+`ansible-playbook playbooks/fresh_install.yml --ask-become`
+
+This will prompt you to input the BECOME password, which is the sudo password for your target machine
+
 ## Section 5: Monitoring Docker Containers
 
 After setting up your machines, let's focus on Docker with the `docker_status.yml` playbook. This playbook checks the status of your Docker containers, ensuring they are running as expected.
@@ -72,7 +76,7 @@ If you have hosts already running docker, you will want to add them to the `inve
 
 If you don't have any hosts running docker, pick a host that you just ran the fresh install script on and add it to the `Docker` group in you `inventory.yml`. Then execute the `first_container` playbook which will stand up your first Docker container.
 
-`ansible-playbook playbooks/first_container.yml`
+`ansible-playbook playbooks/first_container.yml --ask-become`
 
 Now add the following to your `compose_file_paths` for the docekr host in your `inventory.yml` file:
 

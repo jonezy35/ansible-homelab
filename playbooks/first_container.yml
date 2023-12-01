@@ -2,6 +2,17 @@
   hosts: Docker
   become: yes
   tasks:
+    - name: Ensure Python Docker module is installed
+      ansible.builtin.pip:
+        name: docker
+        state: present
+
+    - name: Ensure directory exists for docker-compose file
+      ansible.builtin.file:
+        path: ~/firstContainer
+        state: directory
+        mode: '0755'
+
     - name: Create docker-compose file
       ansible.builtin.copy:
         dest: ~/firstContainer/docker-compose.yml
@@ -13,12 +24,25 @@
               ports:
                 - "80:80"
 
-    - name: Start container using Docker Compose
-      community.docker.docker_compose:
-        project_src: /path/on/remote/host/
-        state: present
-
     - name: Ensure Docker service is running
       ansible.builtin.service:
         name: docker
         state: started
+
+
+    - name: Start container using Docker Compose
+      ansible.builtin.command:
+        cmd: docker compose up -d
+        chdir: ~/firstContainer
+      ignore_errors: yes
+
+    - name: Pause for 30 seconds to allow containers to stabilize
+      ansible.builtin.pause:
+        seconds: 30
+
+    - name: Check container status
+      ansible.builtin.shell: docker compose ps -q | xargs -n1 docker container inspect --format '{{ "{{" }} .State.Running {{ "}}" }}'
+      args:
+        chdir: ~/firstContainer
+      register: container_status
+      ignore_errors: yes
