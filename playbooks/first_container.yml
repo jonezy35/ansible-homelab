@@ -1,12 +1,6 @@
 - name: Start a Docker Container
   hosts: Docker
-  become: yes
   tasks:
-    - name: Ensure Python Docker module is installed
-      ansible.builtin.pip:
-        name: docker
-        state: present
-
     - name: Ensure directory exists for docker-compose file
       ansible.builtin.file:
         path: ~/firstContainer

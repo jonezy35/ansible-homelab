@@ -81,7 +81,7 @@ After setting up your machines, let's focus on Docker with the `docker_status.ym
 
 If you have hosts already running docker, you will want to add them to the `inventory.yml` file in a group named `Docker`.
 
-If you don't have any hosts running docker, pick a host that you just ran the fresh install script on and add it to the `Docker` group in you `inventory.yml`. Then execute the `first_container` playbook which will stand up your first Docker container.
+If you don't have any hosts running docker, pick a host that you just ran the fresh install script on and add it to the `Docker` group in your `inventory.yml`. Then execute the `first_container` playbook which will stand up your first Docker container.
 
 `ansible-playbook playbooks/first_container.yml --ask-become`
 
