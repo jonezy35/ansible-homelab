@@ -80,3 +80,7 @@
         name: docker
         enabled: yes
         state: started
+
+    - name: Reset connection to refresh user group membership
+      meta: reset_connection
+
