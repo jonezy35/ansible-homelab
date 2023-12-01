@@ -44,24 +44,41 @@ In this post, we dive into Ansible to simplify and streamline your homelab opera
 
 ## Section 1: Setting Up SSH Key-Based Authentication
 
-Before jumping into Ansible playbooks, it's crucial to establish a secure and efficient way to connect to your remote machines. SSH key-based authentication offers a more secure alternative to traditional password-based methods. I've detailed the setup process in a previous post, which you can find here. This setup is essential for seamless Ansible operations.
+Before jumping into Ansible playbooks, it's crucial to establish a secure and efficient way to connect to your remote machines. SSH key-based authentication offers a more secure alternative to traditional password-based methods. I've detailed the setup process in a previous post, which you can find [here](https://medium.com/@jonezy7173_88832/using-ssh-key-based-authentication-remote-machines-and-github-f7fe6d142be8). This setup is essential for seamless Ansible operations.
 
 ## Section 2: Crafting Your Ansible Inventory File
 
-An inventory file in Ansible is where you define the hosts and groups for your automation tasks. Let's create an inventory.yml file that categorizes your machines into groups. Here's an example of how your inventory might look
-This inventory file is vital for targeting specific machines or groups in your playbooks.
+An inventory file in Ansible is where you define the hosts and groups for your automation tasks. Let's create an inventory.yml file that categorizes your machines into groups. Fill in your host information, ip address, and user name & key file in the `inventory.yml` file. If you're unsure how to group your machines, just put them all in the same group for now and we will regroup them in the next section.
 
 ## Section 3: Discovering OS Families with Ansible
 
-Now that you have your inventory set, let's start with the os_family_discovery.yml playbook. This playbook will help you identify the operating system family of your hosts, which is crucial for tailoring further automation tasks to specific OS types.
+Now that you have your inventory set, let's start with the `os_family_discovery.yml`` playbook. This playbook will help you identify the operating system family of your hosts, which is crucial for tailoring further automation tasks to specific OS types.
+
+Run this playbook against all of your hosts to get information on which family they belong to.
+
+`ansible-playbook playbooks/os_family_discovery.yml`
+
+Now that you know what family each host is, I recommend going back to the `inventory.yml` and grouping the hosts based on family (Debian, RedHat, etc.). If you want to furthur subdivide your hosts you can have a host in multiple groups as well.
 
 ## Section 4: The Fresh Install - Setting Up New Machines
 
-Next up is the fresh_install.yml playbook. This playbook is designed to install a suite of essential utilities on new machines, whether they're running Debian/Ubuntu or RedHat/CentOS. Notably, this playbook also imports the install_docker.yml playbook, automating Docker installation as part of the setup process.
+Next up is the `fresh_install.yml` playbook. This playbook is designed to install a suite of essential utilities on new machines, whether they're running Debian/Ubuntu or RedHat/CentOS. Notably, this playbook also imports the `install_docker.yml` playbook, automating Docker installation as part of the setup process.
 
 ## Section 5: Monitoring Docker Containers
 
-After setting up your machines, let's focus on Docker with the docker_status.yml playbook. This playbook checks the status of your Docker containers, ensuring they are running as expected.
+After setting up your machines, let's focus on Docker with the `docker_status.yml` playbook. This playbook checks the status of your Docker containers, ensuring they are running as expected.
+
+If you have hosts already running docker, you will want to add them to the `inventory.yml` file in a group named `Docker`.
+
+If you don't have any hosts running docker, pick a host that you just ran the fresh install script on and add it to the `Docker` group in you `inventory.yml`. Then execute the `first_container` playbook which will stand up your first Docker container.
+
+`ansible-playbook playbooks/first_container.yml`
+
+Now add the following to your `compose_file_paths` for the docekr host in your `inventory.yml` file:
+
+`~/firstContainer/docker-compose.yml`
+
+You can now run `docker_status.yml` against your docker hosts to check the status of your containers. This playbook will return all green if your containers are all good, and it will fail if any container is in status "exited"
 
 ## Section 6: Keeping Docker Containers Up-to-Date
 

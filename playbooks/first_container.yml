@@ -1,0 +1,24 @@
+- name: Start a Docker Container
+  hosts: Docker
+  become: yes
+  tasks:
+    - name: Create docker-compose file
+      ansible.builtin.copy:
+        dest: ~/firstContainer/docker-compose.yml
+        content: |
+          version: '3'
+          services:
+            web:
+              image: nginx
+              ports:
+                - "80:80"
+
+    - name: Start container using Docker Compose
+      community.docker.docker_compose:
+        project_src: /path/on/remote/host/
+        state: present
+
+    - name: Ensure Docker service is running
+      ansible.builtin.service:
+        name: docker
+        state: started
